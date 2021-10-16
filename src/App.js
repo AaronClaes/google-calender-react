@@ -1,32 +1,33 @@
 import React, { Fragment, useState, useContext, useEffect } from "react";
-import logo from "./logo.svg";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
-import { getMonth } from "./util";
-import CalenderHeader from "./components/CalenderHeader";
-import Sidebar from "./components/Sidebar";
-import Month from "./components/Month";
-import GlobalContext from "./context/GlobalContext";
-import EventModal from "./components/EventModal";
+import CalendarScreen from "./screens/CalendarScreen";
+import SigninScreen from "./screens/SigninScreen";
+import AuthWrapper from "./context/AuthWrapper";
+
+import PrivateRoute from "./routes/PrivateRoute";
+import { auth } from "./firebase";
+import AuthContext from "./context/AuthContext";
 
 function App() {
-  const [currentMonth, setCurrentMonth] = useState(getMonth());
-  const { monthIndex, showEventModal } = useContext(GlobalContext);
-
-  useEffect(() => {
-    setCurrentMonth(getMonth(monthIndex));
-  }, [monthIndex]);
+  const { setUser } = useContext(AuthContext);
 
   return (
-    <Fragment>
-      {showEventModal && <EventModal />}
-      <div className="h-screen flex flex-col">
-        <CalenderHeader />
-        <div className="flex flex-1">
-          <Sidebar />
-          <Month month={currentMonth} />
-        </div>
-      </div>
-    </Fragment>
+    <AuthWrapper>
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <h1>PUBLIC PAGE</h1>
+          </Route>
+          <Route path="/signin">
+            <SigninScreen />
+          </Route>
+          <PrivateRoute path="/calendar">
+            <CalendarScreen />
+          </PrivateRoute>
+        </Switch>
+      </Router>
+    </AuthWrapper>
   );
 }
 

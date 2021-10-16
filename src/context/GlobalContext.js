@@ -1,6 +1,6 @@
-import React from "react";
+import React, { createContext } from "react";
 
-const GlobalContext = React.createContext({
+const GlobalContext = createContext({
   monthIndex: 0,
   setMonthIndex: (index) => {},
   smallCalendarMonth: 0,
