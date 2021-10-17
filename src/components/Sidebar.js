@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import CreateEventButton from "./CreateEventButton";
 import Labels from "./Labels";
 import SmallCalendar from "./SmallCalendar";

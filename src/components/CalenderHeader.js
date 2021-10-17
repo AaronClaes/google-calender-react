@@ -1,10 +1,15 @@
 import dayjs from "dayjs";
 import React, { useContext } from "react";
+import { useHistory } from "react-router";
 import logo from "../assets/logo.png";
+import AuthContext from "../context/AuthContext";
 import GlobalContext from "../context/GlobalContext";
 
 function CalenderHeader() {
+  const history = useHistory();
   const { monthIndex, setMonthIndex } = useContext(GlobalContext);
+  const { signout } = useContext(AuthContext);
+
   function handlePrevMonth() {
     setMonthIndex(monthIndex - 1);
   }
@@ -40,6 +45,25 @@ function CalenderHeader() {
       <h2 className="ml-4 text-xl text-gray-500 font-bold">
         {dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY")}
       </h2>
+      <ul className="flex px-4 ml-auto font-semibold font-heading space-x-12">
+        <li>
+          <p
+            className="text-gray-500 font-bold cursor-pointer"
+            onClick={() => history.push("/")}
+          >
+            Home
+          </p>
+        </li>
+        <li>
+          <p
+            className="text-gray-500 font-bold cursor-pointer"
+            target="_blank"
+            onClick={() => signout(() => history.push("/"))}
+          >
+            Sign out
+          </p>
+        </li>
+      </ul>
     </header>
   );
 }

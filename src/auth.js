@@ -1,11 +1,11 @@
-import React, { useState, createContext, useContext } from "react";
+import { useContext } from "react";
 import {
   signInWithPopup,
   signOut,
   browserSessionPersistence,
   setPersistence,
 } from "firebase/auth";
-import { provider, GoogleAuthProvider, auth } from "./firebase";
+import { provider, auth } from "./firebase";
 import AuthContext from "./context/AuthContext";
 
 function useAuth() {
@@ -18,22 +18,22 @@ export const signin = async (cb) => {
     .then(() => {
       return signInWithPopup(auth, provider)
         .then((result) => {
-          const credential = GoogleAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          const user = result.user;
+          // const credential = GoogleAuthProvider.credentialFromResult(result);
+          // const token = credential.accessToken;
+          // const user = result.user;
           cb();
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          const email = error.email;
-          const credential = GoogleAuthProvider.credentialFromError(error);
+          // const errorCode = error.code;
+          // const errorMessage = error.message;
+          // const email = error.email;
+          // const credential = GoogleAuthProvider.credentialFromError(error);
         });
     })
     .catch((error) => {
       // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
+      // const errorCode = error.code;
+      // const errorMessage = error.message;
     });
 };
 
