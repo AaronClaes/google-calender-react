@@ -8,7 +8,7 @@ function TestDatabaseScreen() {
 
   function writeUserData(userId, title, date, description, label) {
     console.log(userId, title, date, description, label);
-    set(ref(database, "events/" + userId), {
+    set(ref(database, userId + "/events/" + title), {
       title,
       date,
       description,
@@ -21,9 +21,9 @@ function TestDatabaseScreen() {
         onClick={() =>
           writeUserData(
             user.uid,
-            "test title",
-            1634502708084,
-            "test description",
+            "test title 2",
+            1634502708284,
+            "test description 2",
             "indigo"
           )
         }
