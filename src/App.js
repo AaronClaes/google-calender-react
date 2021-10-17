@@ -7,6 +7,7 @@ import AuthWrapper from "./context/AuthWrapper";
 import PrivateRoute from "./routes/PrivateRoute";
 import HomeScreen from "./screens/HomeScreen";
 import GithubLink from "./components/GithubLink";
+import TestDatabaseScreen from "./screens/TestDatabaseScreen";
 
 function App() {
   return (
@@ -15,6 +16,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <HomeScreen />
+          </Route>
+          <Route path="/database">
+            <TestDatabaseScreen />
           </Route>
           <PrivateRoute path="/calendar">
             <CalendarScreen />

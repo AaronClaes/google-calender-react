@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore/lite";
+import { getDatabase } from "firebase/database";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
@@ -9,12 +9,14 @@ const firebaseConfig = {
   storageBucket: "calendar-react-f90a8.appspot.com",
   messagingSenderId: "466988280036",
   appId: "1:466988280036:web:8996ee26d5c565ed5ae4f1",
+  databaseURL:
+    "https://calendar-react-f90a8-default-rtdb.europe-west1.firebasedatabase.app",
 };
 
 const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
-const db = getFirestore(app);
+const database = getDatabase(app);
 
 export { provider, auth, GoogleAuthProvider };
-export default db;
+export default database;
