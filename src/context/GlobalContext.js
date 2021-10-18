@@ -17,6 +17,8 @@ const GlobalContext = createContext({
   labels: [],
   updateLabel: () => {},
   filteredEvents: [],
+  loadingEvents: true,
+  setLoadingEvents: () => {},
 });
 
 export default GlobalContext;

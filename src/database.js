@@ -10,20 +10,23 @@ export async function writeEventData(event) {
   }
 }
 
-export async function getEventData() {
+export async function getEventsData() {
   try {
     const userId = auth.currentUser.uid;
     console.log("get data");
     const dbRef = ref(database);
     const snapshot = await get(child(dbRef, `${userId}/events`));
     if (snapshot.exists()) {
-      return snapshot.val();
+      const events = snapshot.val();
+      const parsedEvents = Object.keys(events).map((key) => events[key]);
+      console.log(parsedEvents);
+      return parsedEvents;
     } else {
       console.log("No data available");
-      return;
+      return [];
     }
   } catch (error) {
     console.error(error);
-    return;
+    return [];
   }
 }

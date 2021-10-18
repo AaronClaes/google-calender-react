@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ref, set, onValue } from "firebase/database";
 import AuthContext from "../context/AuthContext";
 import database from "../firebase";
-import { getEventData } from "../database";
+import { getEventsData } from "../database";
 
 function TestDatabaseScreen() {
   const { user } = useContext(AuthContext);
@@ -41,7 +41,7 @@ function TestDatabaseScreen() {
         Add Item
       </button>
       <button
-        onClick={() => getEventData()}
+        onClick={() => getEventsData()}
         className="border rounded py-2 px-4 mr-5 m-2 ml-0"
       >
         Read items
