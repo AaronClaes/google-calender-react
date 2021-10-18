@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
+import { writeEventData } from "../database";
 
 const labelsClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
 
@@ -17,9 +18,9 @@ function EventModal() {
       : labelsClasses[0]
   );
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    const calendarEvent = {
+    const event = {
       title,
       description,
       label: selectedLabel,
@@ -27,10 +28,11 @@ function EventModal() {
       id: selectedEvent ? selectedEvent.id : Date.now(),
     };
     if (selectedEvent) {
-      dispatchCalEvent({ type: "update", payload: calendarEvent });
+      dispatchCalEvent({ type: "update", payload: event });
     } else {
-      dispatchCalEvent({ type: "push", payload: calendarEvent });
+      dispatchCalEvent({ type: "push", payload: event });
     }
+    await writeEventData(event);
     setShowEventModal(false);
   }
 

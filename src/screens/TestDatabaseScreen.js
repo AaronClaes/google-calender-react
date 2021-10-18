@@ -1,35 +1,50 @@
 import React, { useContext } from "react";
-import { ref, set } from "firebase/database";
+import { ref, set, onValue } from "firebase/database";
 import AuthContext from "../context/AuthContext";
 import database from "../firebase";
+import { getEventData } from "../database";
 
 function TestDatabaseScreen() {
   const { user } = useContext(AuthContext);
 
-  function writeUserData(userId, title, date, description, label) {
-    console.log(userId, title, date, description, label);
-    set(ref(database, userId + "/events/" + title), {
+  function writeEventData(userId, title, description, date, label, id) {
+    //console.log(userId, title, description, date, label, id);
+    set(ref(database, userId + "/events/" + id), {
       title,
       date,
       description,
       label,
+      id,
     });
   }
+  const starCountRef = ref(database, user?.uid + "/events");
+  onValue(starCountRef, (snapshot) => {
+    const data = snapshot.val();
+    console.log(data, "YOLO");
+  });
+
   return (
     <div>
       <button
         onClick={() =>
-          writeUserData(
+          writeEventData(
             user.uid,
-            "test title 2",
+            "test title 3",
+            "test description 3",
             1634502708284,
-            "test description 2",
-            "indigo"
+            "indigo",
+            1634502708361
           )
         }
-        className="border rounded py-2 px-4 mr-5 m-2"
+        className="border rounded py-2 px-4 mr-2 m-2"
       >
         Add Item
+      </button>
+      <button
+        onClick={() => getEventData()}
+        className="border rounded py-2 px-4 mr-5 m-2 ml-0"
+      >
+        Read items
       </button>
     </div>
   );
