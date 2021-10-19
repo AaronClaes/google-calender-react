@@ -12,6 +12,8 @@ function EventModal() {
   const [description, setDescription] = useState(
     selectedEvent ? selectedEvent.description : ""
   );
+  const [error, setError] = useState(null);
+
   const [selectedLabel, setSelectedLabel] = useState(
     selectedEvent
       ? labelsClasses.find((label) => label === selectedEvent.label)
@@ -20,20 +22,25 @@ function EventModal() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const event = {
-      title,
-      description,
-      label: selectedLabel,
-      day: daySelected.valueOf(),
-      id: selectedEvent ? selectedEvent.id : Date.now(),
-    };
-    if (selectedEvent) {
-      dispatchCalEvent({ type: "update", payload: event });
+    if (!title) {
+      setError("The title is required.");
     } else {
-      dispatchCalEvent({ type: "push", payload: event });
+      setError(null);
+      const event = {
+        title,
+        description,
+        label: selectedLabel,
+        day: daySelected.valueOf(),
+        id: selectedEvent ? selectedEvent.id : Date.now(),
+      };
+      if (selectedEvent) {
+        dispatchCalEvent({ type: "update", payload: event });
+      } else {
+        dispatchCalEvent({ type: "push", payload: event });
+      }
+      await writeEventData(event);
+      setShowEventModal(false);
     }
-    await writeEventData(event);
-    setShowEventModal(false);
   }
 
   return (
@@ -71,7 +78,6 @@ function EventModal() {
               name="title"
               placeholder="Add title"
               value={title}
-              required
               className="pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -87,7 +93,6 @@ function EventModal() {
               name="description"
               placeholder="Add Description"
               value={description}
-              required
               className="pt-3 border-0 text-gray-600 pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -111,7 +116,8 @@ function EventModal() {
             </div>
           </div>
         </div>
-        <footer className="flex justify-end border-t p-3 mt-5">
+        <footer className="flex justify-between items-center border-t p-3 mt-5">
+          <small className="text-red-500 ml-1">{error ? error : null}</small>
           <button
             type="submit"
             onClick={handleSubmit}
