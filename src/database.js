@@ -10,6 +10,15 @@ export async function writeEventData(event) {
   }
 }
 
+export async function deleteEvent(event) {
+  try {
+    const userId = auth.currentUser.uid;
+    await set(ref(database, userId + "/events/" + event.id), null);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function getEventsData() {
   try {
     const userId = auth.currentUser.uid;

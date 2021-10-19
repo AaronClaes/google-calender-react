@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
-import { writeEventData } from "../database";
+import { writeEventData, deleteEvent } from "../database";
 
 const labelsClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
 
@@ -48,6 +48,7 @@ function EventModal() {
               <span
                 onClick={() => {
                   dispatchCalEvent({ type: "delete", payload: selectedEvent });
+                  deleteEvent(selectedEvent);
                   setShowEventModal(false);
                 }}
                 className="material-icons-outlined text-gray-400 cursor-pointer"
